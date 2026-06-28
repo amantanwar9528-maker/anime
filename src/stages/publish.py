@@ -38,10 +38,23 @@ def _yt_service(cfg):
     return build("youtube", "v3", credentials=creds)
 
 
-def upload_youtube(video_path, script, cfg) -> str | None:
+def upload_youtube(video_path, script, cfg):
     if not cfg.get("publish.youtube.enabled", True):
         log.info("YouTube publishing disabled in config; skipping upload.")
         return None
+
+    # Friendly pre-check: is the one-time YouTube authorization done?
+    token_file = ROOT / cfg.get("keys.youtube_token_file", "secrets/yt_token.json")
+    client_file = ROOT / cfg.get("keys.youtube_client_secret_file", "secrets/yt_client_secret.json")
+    for f, what in [(client_file, "YT_CLIENT_SECRET_JSON"),
+                    (token_file, "YT_TOKEN_JSON")]:
+        if (not f.exists()) or len(f.read_text(encoding="utf-8").strip()) < 5:
+            log.warning("YouTube not authorized yet: %s is missing/empty. "
+                        "Complete Part B in SETUP_GUIDE.md (authorize once), then "
+                        "add the GitHub secret '%s'. The video was still created "
+                        "and saved as a build artifact.", f.name, what)
+            return None
+
     try:
         from googleapiclient.http import MediaFileUpload
         yt = _yt_service(cfg)
