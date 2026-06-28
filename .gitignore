@@ -1,0 +1,23 @@
+# secrets never go to GitHub (they live in GitHub Secrets instead)
+config.yaml
+secrets/
+.env
+*.log
+
+# transient working output
+data/output/
+data/logs/
+
+# keep the state folder (run history / dedupe)
+!data/state/
+!data/state/.gitkeep
+
+# bundled music you add locally is optional; large files stay out of git
+assets/music/*.mp3
+assets/music/*.m4a
+assets/music/*.wav
+assets/fonts/*.ttf
+
+# python
+__pycache__/
+*.pyc

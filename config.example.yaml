@@ -1,0 +1,81 @@
+# ============================================================================
+#  ANIME AUTO BOT  —  config
+#  Copy this file to  config.yaml  and edit if you want. The defaults already
+#  work. Nothing here is secret; API keys live in GitHub Secrets / secrets/.
+# ============================================================================
+
+channel:
+  # Public-facing identity used in titles / descriptions / hashtags.
+  name: "Silent Frames"
+  language: "en"            # en | hi | hinglish  (affects script + captions)
+  hashtags: ["#anime", "#shorts", "#makotoshinkai", "#aesthetic", "#sad"]
+
+content:
+  # The kind of Short we make. Emotional anime mini-story told in captions.
+  style: "emotional_story"
+  scenes: 9                 # 7-10 images per Short (each ~5s) -> ~45-55s
+  seconds_per_scene: 5.0
+  transition_seconds: 0.6   # crossfade between scenes
+
+# ---------------------------------------------------------------------------
+# IMAGE STYLE  — every scene prompt is wrapped with this so all images match.
+# ---------------------------------------------------------------------------
+image:
+  model: "gemini-2.0-flash-preview-image-generation"   # FREE tier image model
+  # (If Google renames the free model, change this one line. See SETUP_GUIDE.)
+  aspect: "9:16"            # vertical for Shorts
+  style_suffix: >-
+    Anime movie scene, Makoto Shinkai inspired, ultra detailed, cinematic
+    composition, dramatic lighting, beautiful sky, expressive eyes, emotional
+    atmosphere, volumetric sunlight, masterpiece, 4K, depth of field, highly
+    detailed background, colorful lighting, soft shadows, movie quality,
+    vertical 9:16 composition.
+  # Character consistency — injected into every prompt that has the boy in it.
+  character: >-
+    17-year-old anime boy, black messy hair, blue eyes, white school shirt,
+    black pants, slim body.
+
+# ---------------------------------------------------------------------------
+# VIDEO ENGINE  — the "free AI video" look, done with FFmpeg (zero cost).
+# ---------------------------------------------------------------------------
+video:
+  width: 1080
+  height: 1920
+  fps: 30
+  zoom_strength: 0.12       # how far the slow push-in travels (0.10-0.18)
+  rain: true                # animated rain overlay
+  rain_opacity: 0.35        # 0 = none, 1 = heavy
+  vignette: true
+  grade: true               # subtle cinematic color grade
+  caption:
+    enabled: true
+    font: "assets/fonts/caption.ttf"
+    size: 58
+    color: "white"
+    box_opacity: 0.35       # dark plate behind text for readability
+    y_ratio: 0.72           # vertical position (0 top, 1 bottom)
+  music:
+    enabled: true
+    volume: 0.7
+    folder: "assets/music"  # drop royalty-free .mp3 here (rotated each run)
+
+# ---------------------------------------------------------------------------
+# YOUTUBE  — official Data API v3 upload.
+# ---------------------------------------------------------------------------
+publish:
+  youtube:
+    enabled: true
+    privacy: "public"        # public | unlisted | private
+    made_for_kids: false
+    category_id: "1"         # 1 = Film & Animation
+  shorts_per_day: 2          # the workflow runs twice/day (see workflow file)
+
+keys:
+  gemini_env: "GEMINI_API_KEY"
+  youtube_client_secret_file: "secrets/yt_client_secret.json"
+  youtube_token_file: "secrets/yt_token.json"
+
+paths:
+  output: "data/output"
+  state: "data/state"
+  logs: "data/logs"

@@ -1,0 +1,13 @@
+# Python deps. FFmpeg is a SYSTEM tool (installed via apt in the workflow,
+# or download once on Windows). Everything here is free / open source.
+pyyaml>=6.0
+requests>=2.31
+Pillow>=10.0
+
+# Gemini (free tier) for story text + image generation
+google-generativeai>=0.7.0
+
+# YouTube Data API v3 upload (OAuth)
+google-api-python-client>=2.100
+google-auth>=2.23
+google-auth-oauthlib>=1.1
