@@ -7,10 +7,10 @@ Uses the FREE Gemini text model to produce an emotional anime mini-story:
        image_prompt-> a Makoto-Shinkai-style prompt for that exact moment
 
 Every image_prompt is automatically wrapped with the shared style + character
-description from config, so all 9-10 images look like one consistent film.
+description from config, so all images look like one consistent film.
 
-If the API key is missing or the call fails, a built-in fallback story is used
-so the pipeline still produces a complete video (great for first tests).
+If the API key is missing or the call is rate-limited, a built-in fallback story
+is used so the pipeline still produces a complete video.
 """
 from __future__ import annotations
 import json
@@ -20,8 +20,6 @@ from ..utils.logging_setup import get_logger
 
 log = get_logger("script")
 
-
-# ---- a few seed themes so each day's story feels different -------------------
 THEMES = [
     "a boy waiting at a train station for someone who will never come back",
     "a boy revisiting his old school on the last day before it is demolished",
@@ -73,7 +71,7 @@ def _fallback_story(cfg, n: int) -> dict:
             "image_prompt": _wrap_prompt(scene_actions[i % len(scene_actions)], cfg),
         })
     return {
-        "title": "He Came Back When The Rain Did 🌧️ #shorts",
+        "title": "He Came Back When The Rain Did \U0001F327️ #shorts",
         "description": ("A quiet anime story about waiting, memory, and letting go.\n\n"
                         + " ".join(cfg.get("channel.hashtags", []))),
         "tags": ["anime", "shorts", "makoto shinkai", "sad anime", "aesthetic",
@@ -84,7 +82,7 @@ def _fallback_story(cfg, n: int) -> dict:
     }
 
 
-def _extract_json(text: str) -> dict | None:
+def _extract_json(text: str):
     m = re.search(r"\{.*\}", text, re.S)
     if not m:
         return None
@@ -102,7 +100,8 @@ def make_script(cfg) -> dict:
         return _fallback_story(cfg, n)
 
     lang = cfg.get("channel.language", "en")
-    lang_word = {"en": "English", "hi": "Hindi", "hinglish": "Hinglish (Roman script)"}.get(lang, "English")
+    lang_word = {"en": "English", "hi": "Hindi",
+                 "hinglish": "Hinglish (Roman script)"}.get(lang, "English")
 
     sys_prompt = f"""You are a writer of viral, emotional anime YouTube Shorts in the
 style of Makoto Shinkai films. Write ONE original {n}-scene mini-story.
@@ -129,18 +128,16 @@ Return ONLY valid JSON, no markdown, shaped exactly like:
 Exactly {n} scenes."""
 
     try:
-        import google.generativeai as genai
-        genai.configure(api_key=api_key)
-        model = genai.GenerativeModel("gemini-2.0-flash")
-        resp = model.generate_content(sys_prompt)
+        from google import genai
+        client = genai.Client(api_key=api_key)
+        text_model = cfg.get("content.text_model", "gemini-2.5-flash")
+        resp = client.models.generate_content(model=text_model, contents=sys_prompt)
         data = _extract_json(resp.text)
         if not data or "scenes" not in data:
             raise ValueError("model did not return usable JSON")
-        # wrap every image prompt with shared style + character
         for s in data["scenes"]:
             s["image_prompt"] = _wrap_prompt(s.get("image_prompt", ""), cfg)
         data["scenes"] = data["scenes"][:n]
-        # tidy youtube fields
         hooks = cfg.get("channel.hashtags", [])
         if "#shorts" not in data.get("title", "").lower():
             data["title"] = (data.get("title", "Anime Story")[:84] + " #shorts")

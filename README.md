@@ -7,8 +7,9 @@ to YouTube automatically — twice a day — for **zero cost**.
 
 1. **Writes a story** — Gemini (free tier) writes a short emotional anime story:
    a title, a description, and 9 scene captions.
-2. **Generates images** — Gemini (free tier) creates one image per scene, all in
-   the same Makoto-Shinkai style with the same recurring character.
+2. **Generates images** — a FREE image service (Pollinations, Flux model, no
+   account or key needed) creates one image per scene, all in the same
+   Makoto-Shinkai style with the same recurring character.
 3. **Builds the video** — FFmpeg turns the stills into a cinematic Short:
    - slow camera push-in / gentle zoom (the "AI video" feel, done free)
    - natural falling rain overlay
@@ -25,9 +26,12 @@ does not need to be on. You set it up **once**; after that it is fully automatic
 
 - This costs ₹0 to run. The "slow zoom + rain + cinematic" look is created with
   free software (FFmpeg), not a paid AI-video service — viewers can't tell.
-- Your Gemini **app** subscription is separate from the **API**. You get a free
-  Gemini **API key** from Google AI Studio (no card needed). Steps are in
-  `SETUP_GUIDE.md`.
+- **Images need NO key and NO account** — they come from a free service
+  (Pollinations). Google ended free Gemini *image* generation in 2026, so we
+  don't rely on it.
+- A free Gemini **text** API key (Google AI Studio, no card) is *optional* — it
+  only makes the written stories more varied. Without it, the bot uses its own
+  built-in stories and still works fully.
 - YouTube income is **not instant**. You need 1,000 subscribers + 4,000 watch
   hours, or 10 million Shorts views in 90 days, before you can earn. This system
   posts consistently so that becomes possible over time — but it takes patience.

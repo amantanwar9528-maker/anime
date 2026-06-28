@@ -4,8 +4,8 @@ pyyaml>=6.0
 requests>=2.31
 Pillow>=10.0
 
-# Gemini (free tier) for story text + image generation
-google-generativeai>=0.7.0
+# Gemini (free tier) for story text. New official SDK (old one is deprecated).
+google-genai>=0.3.0
 
 # YouTube Data API v3 upload (OAuth)
 google-api-python-client>=2.100

@@ -14,8 +14,14 @@ If any single step is hard with a screen reader, you can ask a trusted person to
 help with just that one step. Nothing here ever needs to be repeated later.
 
 --------------------------------------------------------------------------------
-PART A. Free Gemini API key (about 3 minutes)
+PART A. Free Gemini API key (about 3 minutes) — OPTIONAL
 --------------------------------------------------------------------------------
+
+NOTE: The pictures do NOT need any key — they come from a free service called
+Pollinations (no account, no key). This Gemini key is only for WRITING the story
+text, and even that is optional: without it the bot uses its own built-in
+stories. You can skip Part A entirely and the bot still works. Adding the key
+just makes the written stories more varied. If you want it:
 
 1. In a browser go to: https://aistudio.google.com/app/apikey
 2. Sign in with your Google account.
@@ -87,9 +93,10 @@ GitHub will run the bot for free in the cloud on a schedule.
 4. In the repository, open: Settings -> Secrets and variables -> Actions.
 5. Activate "New repository secret" and add these THREE secrets:
 
-   Secret 1
+   Secret 1 (OPTIONAL — only if you made a Gemini key in Part A)
      Name:  GEMINI_API_KEY
-     Value: the Gemini key from Part A.
+     Value: the Gemini key from Part A. Skip this secret if you didn't make one;
+            the bot will use its built-in stories.
 
    Secret 2
      Name:  YT_CLIENT_SECRET_JSON
@@ -156,12 +163,13 @@ SAFETY + GOOD-TO-KNOW
 
 - Keep the repository Private. Never paste your keys into the code files; only
   into GitHub Secrets.
-- Free Gemini allows around 500 images a day — far more than the ~18 this bot
-  needs for 2 Shorts. You will not hit the limit.
+- Images come from Pollinations, which is free and needs no key. If it is ever
+  busy, the bot retries, then falls back to a soft placeholder so a video is
+  always produced.
 - Uploading a video costs about 100 of YouTube's 10,000 free daily units, so 2
   uploads a day is comfortable.
-- If Google ever renames the free image model, change ONE line in the config:
-  image.model. Today it is gemini-2.0-flash-preview-image-generation.
+- The image service is set in config: image.backend (default "pollinations") and
+  image.pollinations_model (default "flux", which looks best).
 - Earning money needs YouTube's bar: 1,000 subscribers + 4,000 watch hours, or
   10 million Shorts views in 90 days. This posts daily so you keep building
   toward it. Be patient and let it run.
