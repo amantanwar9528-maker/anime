@@ -17,6 +17,21 @@ content:
   # on the free plan; gemini-2.5-flash-lite has the highest free daily limit.
   # If the story step is ever rate-limited, the bot uses a built-in story instead.
   text_model: "gemini-2.5-flash"
+  # Emotional themes the stories rotate through. Edit/add your own freely.
+  themes:
+    - "a couple watching city lights, quietly in love"
+    - "confessing love on a rooftop at sunset"
+    - "two people sharing one umbrella in the rain, falling in love"
+    - "a furious argument in the rain between two lovers"
+    - "anger melting into tears after a painful fight"
+    - "begging someone to stay just one more night"
+    - "convincing a heartbroken friend to believe in love again"
+    - "the night of a painful breakup at a train platform"
+    - "a breakup message that ends everything"
+    - "waiting at a station for someone who never returns"
+    - "finding love again after heartbreak"
+    - "two lovers reuniting after years apart"
+    - "the warmth of holding hands again after a long fight"
   scenes: 9                 # 7-10 images per Short (each ~5s) -> ~45-55s
   seconds_per_scene: 5.0
   transition_seconds: 0.6   # crossfade between scenes
@@ -66,7 +81,9 @@ video:
   music:
     enabled: true
     volume: 0.7
-    folder: "assets/music"  # drop royalty-free .mp3 here (rotated each run)
+    folder: "assets/music"  # drop royalty-free songs here; played IN ORDER,
+    # one song per video (1st video=1st song...), resuming the next day. Name
+    # files 01_, 02_, 03_ to control the order. Empty folder = ambient sound.
 
 # ---------------------------------------------------------------------------
 # YOUTUBE  — official Data API v3 upload.
@@ -77,7 +94,7 @@ publish:
     privacy: "public"        # public | unlisted | private
     made_for_kids: false
     category_id: "1"         # 1 = Film & Animation
-  shorts_per_day: 2          # the workflow runs twice/day (see workflow file)
+  shorts_per_day: 6          # the workflow runs 6x/day (see workflow file)
 
 keys:
   gemini_env: "GEMINI_API_KEY"

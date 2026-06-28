@@ -1,7 +1,7 @@
 # Anime Auto Bot — hands-off YouTube Shorts (₹0)
 
 Makes cinematic, emotional anime Shorts (Makoto Shinkai style) and uploads them
-to YouTube automatically — twice a day — for **zero cost**.
+to YouTube automatically — six times a day — for **zero cost**.
 
 ## What it does, every run
 
@@ -19,8 +19,11 @@ to YouTube automatically — twice a day — for **zero cost**.
    - vertical 1080×1920, about 45–55 seconds
 4. **Uploads to YouTube** — official YouTube Data API, public, as a #Shorts.
 
+Every run writes a BRAND-NEW story (never repeated) with fresh images, and the
+music plays through your folder in order, resuming the next day.
+
 The whole thing runs in the cloud on **GitHub Actions** (free), so your computer
-does not need to be on. You set it up **once**; after that it is fully automatic.
+is never needed and can stay off. You set it up **once**; after that it is fully automatic.
 
 ## The honest part
 

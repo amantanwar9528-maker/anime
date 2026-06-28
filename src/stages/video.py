@@ -128,7 +128,7 @@ def _render_scene(cfg, img_path: Path, caption: str, idx: int,
 
 
 # ------------------------------- music bed -----------------------------------
-def _music(cfg, cache: Path, duration: float) -> Path | None:
+def _music(cfg, cache: Path, duration: float, track_file=None) -> Path | None:
     if not cfg.get("video.music.enabled", True):
         return None
     out = cache / "music.m4a"
@@ -138,8 +138,11 @@ def _music(cfg, cache: Path, duration: float) -> Path | None:
         tracks = [p for p in Path(folder).iterdir()
                   if p.suffix.lower() in (".mp3", ".m4a", ".wav", ".ogg")]
     vol = cfg.get("video.music.volume", 0.7)
+    # sequential pick passed in by the pipeline takes priority
+    if track_file and Path(track_file).exists():
+        tracks = [Path(track_file)]
     if tracks:
-        t = random.choice(tracks)
+        t = tracks[0] if track_file else random.choice(tracks)
         log.info("music: %s", t.name)
         _run(["ffmpeg", "-y", "-stream_loop", "-1", "-i", str(t), "-t", f"{duration}",
               "-filter:a", f"volume={vol},afade=t=in:st=0:d=1.5,"
@@ -160,7 +163,8 @@ def _music(cfg, cache: Path, duration: float) -> Path | None:
 
 
 # --------------------------------- main --------------------------------------
-def make_video(cfg, script: dict, images: list[Path], outdir: Path) -> Path:
+def make_video(cfg, script: dict, images: list[Path], outdir: Path,
+               music_file=None) -> Path:
     outdir.mkdir(parents=True, exist_ok=True)
     cache = outdir / "_work"; cache.mkdir(exist_ok=True)
     rain = _ensure_rain(cfg, cache)
@@ -203,7 +207,7 @@ def make_video(cfg, script: dict, images: list[Path], outdir: Path) -> Path:
               str(silent)])
         total = len(clips) * dur - (len(clips) - 1) * T
 
-    music = _music(cfg, cache, total)
+    music = _music(cfg, cache, total, music_file)
     final = outdir / "short.mp4"
     if music:
         _run(["ffmpeg", "-y", "-i", str(silent), "-i", str(music),

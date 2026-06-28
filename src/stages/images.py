@@ -95,7 +95,7 @@ def _placeholder(path: Path, idx: int, w: int, h: int):
 
 
 # --------------------------------- main --------------------------------------
-def make_images(cfg, script: dict, outdir: Path):
+def make_images(cfg, script: dict, outdir: Path, seed_base: int = BASE_SEED):
     outdir.mkdir(parents=True, exist_ok=True)
     backend = cfg.get("image.backend", "pollinations")
     w, h = cfg.get("video.width", 1080), cfg.get("video.height", 1920)
@@ -111,7 +111,7 @@ def make_images(cfg, script: dict, outdir: Path):
         if backend == "gemini" and api_key:
             data = _gemini_image(prompt, api_key, gem_model)
         else:
-            data = _pollinations(prompt, w, h, BASE_SEED + i, poll_model)
+            data = _pollinations(prompt, w, h, seed_base + i, poll_model)
             if not data and api_key:
                 data = _gemini_image(prompt, api_key, gem_model)
         if data:

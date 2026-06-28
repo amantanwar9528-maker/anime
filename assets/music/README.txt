@@ -1,16 +1,26 @@
-MUSIC FOLDER
-============
+MUSIC FOLDER  (played in ORDER, one song per video)
+===================================================
 
-Drop royalty-free / no-copyright music files here (.mp3 or .m4a). The bot
-picks one at random for each Short and fades it in/out automatically.
+Drop your no-copyright music files here (.mp3, .m4a or .wav).
 
-If this folder is empty, the bot AUTOMATICALLY generates a soft ambient pad,
-so your videos will always have sound even with nothing here.
+HOW SONGS ARE CHOSEN
+  Videos use the songs in this folder IN ORDER, by file name (A -> Z):
+    video 1 -> 1st file, video 2 -> 2nd file, video 3 -> 3rd file, ...
+  The next day it RESUMES where it left off (this is remembered in
+  data/state/state.json). When it reaches the last song it loops back to the
+  first. So name your files so the order is what you want, for example:
+    01_song.mp3
+    02_song.mp3
+    03_song.mp3
 
-Where to get FREE, safe-to-monetize music (₹0):
+If this folder is EMPTY, the bot makes a soft ambient sound automatically, so
+videos always have audio.
+
+WHERE TO GET FREE, MONETISATION-SAFE MUSIC (zero cost)
   * YouTube Studio -> Audio Library  (filter: "No attribution required")
-  * Pixabay Music   (pixabay.com/music)  - free, no copyright
-  * Free Music Archive (freemusicarchive.org) - check the CC0 / public domain ones
+  * Pixabay Music  (pixabay.com/music)
+  * Free Music Archive (the CC0 / public-domain tracks)
+Use calm lo-fi / piano / ambient to match the emotional anime mood.
 
-Tip: pick calm lo-fi / piano / ambient tracks to match the emotional anime mood.
-Add 3-5 tracks so your Shorts don't all sound the same.
+IMPORTANT: only use music you are allowed to use. Copyrighted songs can get your
+video blocked or demonetised by YouTube's Content ID.

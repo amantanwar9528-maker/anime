@@ -1,7 +1,7 @@
 # Setup Guide — do this once, then it runs forever by itself
 
 This guide is written in plain steps for a screen reader. Every step is numbered.
-Take it slowly. You only do this ONCE. After it is done, the bot posts 2 Shorts a
+Take it slowly. You only do this ONCE. After it is done, the bot posts 6 Shorts a
 day on its own, with your computer off.
 
 There are 4 parts:
@@ -121,10 +121,11 @@ PART D. Turn it on and test (2 minutes)
 4. Wait a few minutes. When the run finishes with a green check, your first
    Short is on your YouTube channel. (Open the run to download the video file
    and logs under "Artifacts" if you want to check it.)
-5. From now on it runs automatically twice every day. Nothing else to do.
+5. From now on it runs automatically SIX times every day. Nothing else to do.
 
-The two daily times are set in .github/workflows/publish.yml:
-   2:00 PM India time and 9:00 PM India time. You can change those lines later.
+The six daily times are set in .github/workflows/publish.yml (India time):
+   6:00 AM, 10:00 AM, 1:00 PM, 5:00 PM, 8:00 PM, 11:00 PM.
+   You can change those lines later if you want different times.
 
 --------------------------------------------------------------------------------
 ADJUSTING THINGS (optional, anytime)

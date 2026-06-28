@@ -8,14 +8,18 @@ secrets/
 data/output/
 data/logs/
 
-# keep the state folder (run history / dedupe)
+# KEEP state (run history, music index, used stories) so cloud runs remember
 !data/state/
 !data/state/.gitkeep
+!data/state/state.json
 
-# bundled music you add locally is optional; large files stay out of git
-assets/music/*.mp3
-assets/music/*.m4a
-assets/music/*.wav
+# KEEP your music in the repo so the cloud runner can use it
+!assets/music/
+!assets/music/*.mp3
+!assets/music/*.m4a
+!assets/music/*.wav
+
+# downloaded fonts (re-created at runtime)
 assets/fonts/*.ttf
 
 # python

@@ -1,18 +1,26 @@
 name: Post anime Short
 
-# Runs TWICE a day -> 2 Shorts/day, fully hands-off.
-# GitHub cron is in UTC. These two times are good global Shorts slots.
+# Runs 6 times a day -> 6 Shorts/day, fully hands-off (your PC stays off).
+# GitHub cron is in UTC. India Standard Time = UTC + 5:30. Times below are IST:
+#   6:00 AM  IST = 00:30 UTC
+#   10:00 AM IST = 04:30 UTC
+#   1:00 PM  IST = 07:30 UTC
+#   5:00 PM  IST = 11:30 UTC
+#   8:00 PM  IST = 14:30 UTC
+#   11:00 PM IST = 17:30 UTC
 # (Free runners can start 5-15 min late under load — that's normal.)
-#   08:30 UTC  (= 2:00 PM IST)
-#   15:30 UTC  (= 9:00 PM IST)
 on:
   schedule:
-    - cron: "30 8 * * *"
-    - cron: "30 15 * * *"
-  workflow_dispatch:        # lets you press "Run workflow" manually any time
+    - cron: "30 0 * * *"
+    - cron: "30 4 * * *"
+    - cron: "30 7 * * *"
+    - cron: "30 11 * * *"
+    - cron: "30 14 * * *"
+    - cron: "30 17 * * *"
+  workflow_dispatch:        # press "Run workflow" to make one any time
 
 permissions:
-  contents: read
+  contents: write           # needed to commit the state file back
 
 concurrency:
   group: publish
@@ -49,6 +57,14 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python -m src.main
+
+      - name: Save state so nothing repeats and music continues in order
+        run: |
+          git config user.name "anime-bot"
+          git config user.email "anime-bot@users.noreply.github.com"
+          git add -f data/state/state.json || true
+          git commit -m "chore: update state [skip ci]" || echo "nothing to commit"
+          git push || echo "push skipped"
 
       - name: Save the video + logs for your review
         if: always()
