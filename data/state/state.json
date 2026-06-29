@@ -1,5 +1,9 @@
 {
-  "run_counter": 0,
-  "music_index": 0,
-  "used_signatures": []
+  "run_counter": 3,
+  "music_index": 3,
+  "used_signatures": [
+    "512147fa0a4e67e7",
+    "ae19ef693fdfe09a",
+    "2031b4a9ca2d5ef7"
+  ]
 }
