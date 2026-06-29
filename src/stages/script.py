@@ -88,6 +88,38 @@ CAPTIONS = [
     "Broken hearts still know how to bloom.",
 ]
 
+
+# Hinglish captions (Hindi written in English letters) — used when
+# channel.language is "hinglish". Covers love, anger, persuasion, breakup, reunion.
+HINGLISH_CAPTIONS = [
+    "Tum chale gaye, par yaadein reh gayi.",
+    "Pehli baar dil itna dhadka tha.",
+    "Baarish mein bhi teri kami mehsoos hui.",
+    "Ruk jao na, bas ek raat aur.",
+    "Gussa tha, par pyaar usse zyada tha.",
+    "Tumne alvida kaha, maine 'mat jao' suna.",
+    "Kuch rishtey adhoore hi khoobsurat lagte hain.",
+    "Phir se pyaar hua, phir se tumse.",
+    "Haath chhoot gaya, par yaad nahi.",
+    "Tum mere sabse pyaare kal the.",
+    "Dil toota, par phir se sambhal gaya.",
+    "Wo hass di, aur duniya ruk gayi.",
+    "Tere bina ghar, ghar nahi lagta.",
+    "Tumhe wahan paaya jahan dhoondhna chhoda tha.",
+    "Pyaar dobara mauka zaroor deta hai.",
+    "Gussa chala gaya, pyaar reh gaya.",
+    "Teri hassi aaj bhi yaad hai.",
+    "Kuch alvida kabhi poore nahi hote.",
+    "Wada tha, pehli barfbari saath dekhenge.",
+    "Aakhri message aaya, dil baith gaya.",
+    "Tumse ladai bhi pyaar lagti thi.",
+    "Main theek hoon, bas teri kami hai.",
+    "Sehmi si raat, aur teri yaadein.",
+    "Phir milenge, isi umeed mein jee raha hoon.",
+    "Do zidddi dil, ek chupchaap sorry.",
+    "Tumne jaana chaha, maine rok liya.",
+]
+
 ACTIONS = [
     # love / couples
     "a young couple laughing together under one umbrella in the rain",
@@ -124,6 +156,14 @@ ACTIONS = [
 ]
 
 
+
+def _caption_pool(cfg):
+    lang = (cfg.get("channel.language", "en") or "en").lower()
+    if lang == "hinglish":
+        return HINGLISH_CAPTIONS
+    return CAPTIONS
+
+
 def _themes(cfg):
     t = cfg.get("content.themes")
     if isinstance(t, list) and t:
@@ -146,10 +186,11 @@ def _signature(scenes) -> str:
 def _fallback_story(cfg, n: int, seed: int) -> dict:
     rng = random.Random(seed)
     theme = rng.choice(_themes(cfg))
-    caps = rng.sample(CAPTIONS, min(n, len(CAPTIONS)))
+    pool = _caption_pool(cfg)
+    caps = rng.sample(pool, min(n, len(pool)))
     acts = rng.sample(ACTIONS, min(n, len(ACTIONS)))
     while len(caps) < n:
-        caps.append(rng.choice(CAPTIONS))
+        caps.append(rng.choice(pool))
     while len(acts) < n:
         acts.append(rng.choice(ACTIONS))
     scenes = [{"caption": caps[i], "image_prompt": _wrap_prompt(acts[i], cfg)}

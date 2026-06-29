@@ -7,7 +7,7 @@
 channel:
   # Public-facing identity used in titles / descriptions / hashtags.
   name: "Silent Frames"
-  language: "en"            # en | hi | hinglish  (affects script + captions)
+  language: "hinglish"      # en | hi | hinglish  (on-screen caption language)
   hashtags: ["#anime", "#shorts", "#makotoshinkai", "#aesthetic", "#sad"]
 
 content:
